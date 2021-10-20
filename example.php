@@ -1,15 +1,13 @@
 <pre>
 <?php
-
-use Krishna\DataValidator\ErrorReader;
 use Krishna\DataValidator\Validator;
 
 require_once 'vendor/autoload.php';
 
 $json = '{
 	"id": "int|float@rf1@rf2",
-	"firstname": "string|string64",
-	"?val": "int|float|mytype|null",
+	"firstname": "string",
+	"?val": "int|float|null",
 	"nums": ["int"],
 	"?info": {
 		"msg": "string"
@@ -23,8 +21,8 @@ $data = [
 	'id' => 1,
 	'firstname' => 'test',
 	'nums' => [1],
-	'other' => [['a' => 1], ['a' => 2, 'b'=> 3]],
-	'info' => ['msg'=> 1],
+	'other' => [['a' => 1], ['a' => 2, 'b'=> 'true']],
+	'info' => ['msg'=> '1'],
 	'val' => 24.5
 ];
 
