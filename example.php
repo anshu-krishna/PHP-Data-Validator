@@ -23,7 +23,7 @@ $data = [
 	'id' => 1,
 	'firstname' => 'test',
 	'nums' => [1],
-	'other' => [['a' => 1], ['a' => 2, 'b'=> 3, 'c'=>4]],
+	'other' => [['a' => 1], ['a' => 2, 'b'=> 3]],
 	'info' => ['msg'=> 1],
 	'val' => 24.5
 ];
@@ -45,23 +45,19 @@ $data = [
 // $json = '["int", "string", "int"]';
 // $data = [0, 'hello', 1];
 
-$v = Validator::create($json);
+list("valid" => $valid, "value" => $v) = Validator::create($json)->get_as_array();
 
-if(!$v->valid) {
-	echo 'Error: ', $v->value;
+if(!$valid) {
+	echo 'Error: ', $v;
 	exit(0);
 }
-
-$v = $v->value;
 
 // print_r($v);
 // var_dump($v);
 
-$data = $v->validate($data);
-if(!$data->valid) {
-	echo 'Data Error:', new ErrorReader($data->value);
+list("valid" => $valid, "value" => $data) = $v->validate($data)->get_as_array();
+if(!$valid) {
+	echo 'Data Error:', $data;
 	exit(0);
 }
-$data = $data->value;
-
 print_r($data);

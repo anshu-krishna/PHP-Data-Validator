@@ -8,7 +8,6 @@ class Validator {
 		if($json === null) {
 			return Returner::invalid('Invalid JSON');
 		}
-		// print_r($json);
 		if(is_object($json)) {
 			$json = _ObjectHandler_::create($json);
 		} elseif(is_array($json)) {
@@ -23,6 +22,10 @@ class Validator {
 		}
 	}
 	public function validate(array|object $val) : Returner {
-		return $this->_struct->validate($val);
+		$res = $this->_struct->validate($val);
+		if($res->valid) {
+			return $res;
+		}
+		return Returner::invalid(new ErrorReader($res->value));
 	}
 }

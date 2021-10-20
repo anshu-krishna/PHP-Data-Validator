@@ -13,4 +13,7 @@ final class Returner {
 	public static function invalid($reason = null) : Returner {
 		return new self(false, $reason);
 	}
+	public function get_as_array() : array {
+		return ["valid" => $this->valid, "value" => $this->value];
+	}
 }
