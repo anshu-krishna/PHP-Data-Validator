@@ -13,9 +13,7 @@ class _ObjectHandler_ {
 	public static function create(object $list) : Returner {
 		$ret = [];
 		$error = [];
-		$i = -1;
 		foreach($list as $key=>$item) {
-			++$i;
 			$info = [];
 			list($key, $info['op']) = self::_parse_key_string($key);
 			if(is_string($item)) {
@@ -29,16 +27,43 @@ class _ObjectHandler_ {
 				continue;
 			}
 			if($item->valid) {
-				$info['val'] = $item->value;
+				$info['handler'] = $item->value;
 				$ret[$key] = $info;
 			} else {
 				$error[$key] = $item->value;
 			}
 		}
-		if(count($error) > 0) {
-			return Returner::invalid($error);
-		} else {
+		if(count($error) === 0) {
 			return Returner::valid(new self($ret));
+		} else {
+			return Returner::invalid($error);
 		}
+	}
+	public function validate($val) : Returner {
+		if(is_array($val)) {
+			$val = (object) $val;
+		} elseif(!is_object($val)) {
+			return Returner::invalid('Expecting array|object');
+		}
+		$error = [];
+		$ret = [];
+		foreach($this->_list as $key => $info) {
+			if(property_exists($val, $key)) {
+				$res = ($info['handler'])->validate($val->{$key});
+				if($res->valid) {
+					$ret[$key] = $res->value;
+				} else {
+					$error[$key] = $res->value;
+				}
+			} elseif($info['op']) {
+				continue;
+			} else {
+				$error[$key] = "Missing";
+			}
+		}
+		if(count($error) === 0) {
+			return Returner::valid($ret);
+		}
+		return Returner::invalid($error);
 	}
 }

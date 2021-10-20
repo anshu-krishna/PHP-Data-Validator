@@ -32,4 +32,36 @@ class _ArrayHandler_ {
 			return Returner::valid(new self(count($list) === 1, $ret));
 		}
 	}
+	public function validate($vals) : Returner {
+		if(!is_array($vals)) {
+			return Returner::invalid('Expecting array');
+		}
+		$ret = [];
+		$error = [];
+		$found = [];
+		foreach($vals as $key => $val) {
+			$found[] = $key;
+			$handler = $this->_list[$this->_single ? 0 : $key] ?? false;
+			if($handler === false) {
+				$error[$key] = 'Out of bounds';
+				continue;
+			}
+			$res = $handler->validate($vals[$key]);
+			if($res->valid) {
+				$ret[$key] = $res->value;
+			} else {
+				$error[$key] = $res->value;
+			}
+		}
+		if(!$this->_single) {
+			foreach(array_diff(range(0, count($this->_list) - 1), $found) as $k) {
+				$error[$k] = "Missing";
+			}
+		}
+		if(count($error) === 0) {
+			return Returner::valid($ret);
+		}
+		ksort($error);
+		return Returner::invalid($error);
+	}
 }

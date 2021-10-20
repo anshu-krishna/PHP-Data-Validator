@@ -10,10 +10,15 @@ class _TypeHandler_ {
 		$rng_fmt = preg_split('/@/', $info);
 		$types = explode('|', array_shift($rng_fmt));
 		$nullable = in_array('null', $types);
-		if($nullable) {
-			$types = array_diff($types, ['null']);
+		$types = array_diff($types, ['null', '']);
+
+		if(count($types) === 0) {
+			return Returner::invalid('Data-type missing');
 		}
 		return Returner::valid(new self($types, $rng_fmt, $nullable));
+	}
+	public function validate($val) : Returner {
+		return Returner::valid($val);
 	}
 	public function __debugInfo() {
 		return [
