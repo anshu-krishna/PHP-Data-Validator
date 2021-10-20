@@ -47,8 +47,11 @@ class _ObjectHandler_ {
 		}
 		$error = [];
 		$ret = [];
+		$all_keys = array_keys(get_object_vars($val));
+		$found = [];
 		foreach($this->_list as $key => $info) {
 			if(property_exists($val, $key)) {
+				$found[] = $key;
 				$res = ($info['handler'])->validate($val->{$key});
 				if($res->valid) {
 					$ret[$key] = $res->value;
@@ -60,6 +63,9 @@ class _ObjectHandler_ {
 			} else {
 				$error[$key] = "Missing";
 			}
+		}
+		foreach(array_diff($all_keys, $found) as $k) {
+			$error[$k] = "Out of bound";
 		}
 		if(count($error) === 0) {
 			return Returner::valid($ret);

@@ -23,7 +23,7 @@ $data = [
 	'id' => 1,
 	'firstname' => 'test',
 	'nums' => [1],
-	'other' => [['a' => 1]],
+	'other' => [['a' => 1], ['a' => 2, 'b'=> 3, 'c'=>4]],
 	'info' => ['msg'=> 1],
 	'val' => 24.5
 ];
