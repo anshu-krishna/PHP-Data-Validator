@@ -8,10 +8,10 @@ class EmailType implements \Krishna\DataValidator\TypeInterface {
 	const Name = 'email';
 
 	public static function validate($value, bool $allow_null = false) : Returner {
-		if(($f = filter_var($value, FILTER_VALIDATE_EMAIL)) !== false) {
+		if(($f = filter_var($value, FILTER_VALIDATE_EMAIL, FILTER_FLAG_EMAIL_UNICODE)) !== false) {
 			return Returner::valid($f);
 		}
-		if($allow_null && ($f = NullType::validate($value))->vaild) {
+		if($allow_null && ($f = NullType::validate($value))->valid) {
 			return $f;
 		}
 		return Returner::invalid(static::Name);

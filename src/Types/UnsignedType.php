@@ -8,8 +8,8 @@ class UnsignedType implements \Krishna\DataValidator\TypeInterface {
 	const Name = 'unsigned';
 
 	public static function validate($value, bool $allow_null = false) : Returner {
-		if((($f = filter_var($value, FILTER_VALIDATE_INT)) !== false) && $f >= 0) {
-			return Returner::valid($f);
+		if(($f = IntType::validate($value))->valid && $f->value >= 0) {
+			return $f;
 		}
 		if($allow_null && ($f = NullType::validate($value))->valid) {
 			return $f;

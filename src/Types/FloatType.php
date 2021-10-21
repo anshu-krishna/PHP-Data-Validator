@@ -8,7 +8,7 @@ class FloatType implements \Krishna\DataValidator\TypeInterface {
 	const Name = 'float';
 
 	public static function validate($value, bool $allow_null = false) : Returner {
-		if(($f = filter_var($value, FILTER_VALIDATE_FLOAT)) !== false) {
+		if(($f = filter_var($value, FILTER_VALIDATE_FLOAT, FILTER_FLAG_ALLOW_THOUSAND)) !== false) {
 			return Returner::valid($f);
 		}
 		if($allow_null && ($f = NullType::validate($value))->valid) {
