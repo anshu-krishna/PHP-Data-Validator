@@ -9,8 +9,7 @@ class NullType implements \Krishna\DataValidator\TypeInterface {
 
 	public static function validate($value, bool $allow_null = false) : Returner {
 		if($value === null || (is_string($value) && ($value === '' || strcasecmp($value, 'null') === 0))) {
-			$f = null;
-			return Returner::valid($f);
+			return Returner::valid(null);
 		}
 		return Returner::invalid(static::Name);
 	}

@@ -4,7 +4,7 @@ class _TypeHandler_ {
 	private const InterfaceClass = '\\' . __NAMESPACE__ . '\\TypeInterface';
 	private const NSPathCache = '\\' . __NAMESPACE__ . '\\Types\\';
 	private static $_type_dict = [];
-	private static bool $_init_cache = false;
+	private static bool $_init_cache = true;
 	private function __construct(
 		private array $_types,
 		private array $_rng_fmt,
@@ -26,17 +26,26 @@ class _TypeHandler_ {
 		return null;
 	}
 	public static function create($info) : Returner {
-		if(!static::$_init_cache) {
+		if(static::$_init_cache) {
 			foreach([
 				'bool'		=> 'BoolType',
+				'email'		=> 'EmailType',
 				'float'		=> 'FloatType',
+				'hex'		=> 'HexType',
 				'int'		=> 'IntType',
+				'ip'		=> 'IPType',
+				'mac'		=> 'MACType',
+				'mixed'		=> 'MixedType',
 				'null'		=> 'NullType',
-				'string'	=> 'StringType'
+				'number'	=> 'NumberType',
+				'string'	=> 'StringType',
+				'timestamp'	=> 'TimestampType',
+				'unsigned'	=> 'UnsignedType',
+				'url'		=> 'URLType',
 			] as $k => $v) {
 				static::$_type_dict[$k] = static::NSPathCache . $v;
 			}
-			static::$_init_cache = true;
+			static::$_init_cache = false;
 		}
 		$info = strval($info);
 		$rng_fmt = preg_split('/@/', $info);
