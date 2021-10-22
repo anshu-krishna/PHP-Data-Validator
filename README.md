@@ -3,7 +3,7 @@ A PHP library for simplifying complexly-structured-data validation.
 
 ### Installation
 ```
-[packagist link]
+composer require anshu-krishna/data-validator
 ```
 ### Basic Example
 ```php
