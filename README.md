@@ -8,7 +8,7 @@ composer require anshu-krishna/data-validator
 ### Basic Example
 ```php
 <?php
-require_once 'vendor/autoload.php';
+require_once '../vendor/autoload.php';
 use Krishna\DataValidator\Validator;
 
 /**********************************
@@ -102,8 +102,9 @@ if($data3->valid) {
 /////////////////////////////////////////////////////////////////
 $data4 = [
 	"name" => true, // Bool insteadof a string
-	"age" => 80
-	// Optional nums and links not present
+	"age" => 80,
+	"nums" => [1, false, 20, 'hello']
+	// Optional links not present
 ];
 // Use the validator to validate data4
 $data4 = $validator->validate($data4);
@@ -180,7 +181,9 @@ Data4 Error:
 [
     "[name]: Expected 'string'",
     "[id]: Missing",
-    "[age]: Expected range [18, 45]"
+    "[age]: Expected range [18, 45]",
+    "[nums][1]: Expected 'int|float'",
+    "[nums][3]: Expected 'int|float'"
 ]
 ```
 ___
