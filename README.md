@@ -37,7 +37,7 @@ composer require anshu-krishna/data-validator
 
 * Custom ranger/formater can also be added. For example see `./examples`
 
-* Data-structure can of nested style (Upto depth **512**). For example see `./examples`
+* Data-structure can of nested style (Upto PHP max recursion depth). For example see `./examples`
 
 
 ## Basic Example:
@@ -222,4 +222,4 @@ Data4 Error:
 ]
 ```
 ___
-### See DOC file for more info.
+### See `./examples` for more info.
