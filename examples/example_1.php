@@ -100,7 +100,7 @@ foreach($examples as $ex) {
 	echo '<div>';
 	echo '<pre>Structure:' , PHP_EOL , print_r($ex['struct'], true) . '</pre>';
 	echo '<pre>Data to be Checked:' , PHP_EOL , print_r($ex['data'], true) . '</pre>';
-	// Create a validator object for te given data-structure
+	// Create a validator object for the given data-structure
 	$validator = Validator::create($ex['struct']);
 	if(!$validator->valid) {
 		// Structure syntax is not correct; Printing the error msg;

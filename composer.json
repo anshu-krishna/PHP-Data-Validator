@@ -1,6 +1,6 @@
 {
     "name": "anshu-krishna/data-validator",
-    "description": "A library for simpifying complex data validation",
+    "description": "A PHP library for simplifying complexly-structured-data validation.",
     "type": "library",
     "license": "MIT",
     "authors": [
