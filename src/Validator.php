@@ -3,22 +3,25 @@ namespace Krishna\DataValidator;
 
 class Validator {
 	private function __construct(private _ArrayHandler_|_ObjectHandler_ $_struct) {}
-	public static function create(string $json_data_struct) : Returner {
-		$json = json_decode($json_data_struct);
-		if($json === null) {
+	public static function create(array|string $data_struct) : Returner {
+		if(is_array($data_struct)) {
+			$data_struct = json_encode($data_struct);
+		}
+		$data_struct = json_decode($data_struct);
+		if($data_struct === null) {
 			return Returner::invalid('Invalid JSON');
 		}
-		if(is_object($json)) {
-			$json = _ObjectHandler_::create($json);
-		} elseif(is_array($json)) {
-			$json = _ArrayHandler_::create($json);
+		if(is_object($data_struct)) {
+			$data_struct = _ObjectHandler_::create($data_struct);
+		} elseif(is_array($data_struct)) {
+			$data_struct = _ArrayHandler_::create($data_struct);
 		} else {
 			return Returner::invalid('Invalid JSON');
 		}
-		if($json->valid) {
-			return Returner::valid(new self($json->value));
+		if($data_struct->valid) {
+			return Returner::valid(new self($data_struct->value));
 		} else {
-			return Returner::invalid(new ErrorReader($json->value));
+			return Returner::invalid(new ErrorReader($data_struct->value));
 		}
 	}
 	public function validate(array|object $val) : Returner {
