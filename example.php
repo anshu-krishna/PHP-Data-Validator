@@ -1,5 +1,6 @@
 <pre>
 <?php
+
 use Krishna\DataValidator\Validator;
 
 require_once 'vendor/autoload.php';
@@ -31,12 +32,12 @@ $json = '{
 	"?email":		"email|null",
 	"?float":		"float|null",
 	"?hex":			"hex|null",
-	"?int":			"int|null",
+	"?int":			"int|null@numrange(10,20)",
 	"?ip":			"ip|null",
 	"?mac":			"mac|null",
 	"?mixed":		"mixed|null",
 	"?number":		"number|null",
-	"?string":		"string|null",
+	"?string":		"string|null@strrange(5,10)",
 	"?timestamp":	"timestamp|null",
 	"?unsigned":	"unsigned|null",
 	"?url":			"url|null"
@@ -47,7 +48,7 @@ $data = [
 	'email'		=> 'a@b.c',
 	'float'		=> 1.2,
 	'hex'		=> 'FF',
-	'int'		=> 5,
+	'int'		=> 15,
 	// 'ip'		=> '127.0.0.1',
 	'ip'		=> '2001:db8:3333:4444:5555:6666:7777:8888',
 	'mac'		=> '12-34-56-78-9A-BC',
