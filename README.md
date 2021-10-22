@@ -15,14 +15,14 @@ use Krishna\DataValidator\Validator;
  * Setup
  **********************************/
 $structure = [
-	"name" => "string",				// Name is a string
+	"name" => "string",			// Name is a string
 	"id" => "int|email",			// ID can be an int or email address
-	"age" => "int@num_range(18,45)",// Age is an int. Age must be in range [18,45]
+	"age" => "int@num_range(18,45)",	// Age is an int. Age must be in range [18,45]
 	"?nums" => ["int|float"],		// Nums is optional. Nums is an array contaning int and float items
 
 	// Links is optional. Links is an array of 'item' arrays. 'item' has Title and Link property
 	"?links" => [[
-		"title" => "string",	// Title is a string
+		"title" => "string",		// Title is a string
 		"link" => "url",		// Link is a URL
 	]]
 ];
