@@ -9,14 +9,14 @@ class Validator {
 		}
 		$data_struct = json_decode($data_struct);
 		if($data_struct === null) {
-			return Returner::invalid('Invalid JSON');
+			return Returner::invalid('Invalid structure');
 		}
 		if(is_object($data_struct)) {
 			$data_struct = _ObjectHandler_::create($data_struct);
 		} elseif(is_array($data_struct)) {
 			$data_struct = _ArrayHandler_::create($data_struct);
 		} else {
-			return Returner::invalid('Invalid JSON');
+			return Returner::invalid('Invalid structure');
 		}
 		if($data_struct->valid) {
 			return Returner::valid(new self($data_struct->value));

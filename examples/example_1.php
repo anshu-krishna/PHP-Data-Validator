@@ -58,7 +58,7 @@ $examples = [
 			'name' => 'test',
 			'nums' => [1, 2, 3],
 			'other' => [['a' => 1], ['a' => 2, 'b'=> 'true']],
-			'info' => ['msg'=> '1']
+			'info' => ['msg'=> 'hello world']
 		]
 	] , [
 		'struct' => [
