@@ -88,7 +88,7 @@ if($data2->valid) {
 	echo '<pre>Data2 Error: ', PHP_EOL, $data2->value, '</pre>';
 }
 /////////////////////////////////////////////////////////////////
-$data3 = ['id' => 78912, "age" => 70]; // Lots of misssing data
+$data3 = ['id' => 78912, "age" => 70]; // Lots of missing data. Age is out of range.
 // Use the validator to validate data3
 $data3 = $validator->validate($data3);
 // Check if data3 is valid
