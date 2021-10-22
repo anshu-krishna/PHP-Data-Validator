@@ -35,9 +35,9 @@ composer require anshu-krishna/data-validator
 	* `str_upper` : Works with any string data. Transforms the string to uppercase
 	* `str_title` : Works with any string data. Transforms the string to titlecase
 
-* Custom ranger/formater can also be added. For example see `./examples`
+* Custom ranger/formatter can also be added. For example see `./examples`
 
-* Data-structure can of nested style (Upto PHP max recursion depth). For example see `./examples`
+* Data-structure can be of nested style (Upto PHP max recursion depth). For example see `./examples`
 
 
 ## Basic Example:
@@ -123,7 +123,7 @@ if($data2->valid) {
 	echo '<pre>Data2 Error: ', PHP_EOL, $data2->value, '</pre>';
 }
 /////////////////////////////////////////////////////////////////
-$data3 = ['id' => 78912, "age" => 70]; // Lots of missing data. Age is out of range.
+$data3 = ['id' => 78912, "age" => 70]; // Some missing data. Age is out of range.
 // Use the validator to validate data3
 $data3 = $validator->validate($data3);
 // Check if data3 is valid
