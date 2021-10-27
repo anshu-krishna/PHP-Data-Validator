@@ -3,38 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>PHP Data-Validator - Example - Demostrating nested structures</title>
-	<style>
-		* {
-			box-sizing: border-box;
-		}
-		body {
-			padding: 0;
-			margin: 0;
-		}
-		body > h1, body > h2 {
-			text-align: center;
-		}
-		body > div {
-			display: grid;
-			grid-template-columns: 1fr 1fr 1fr;
-			gap: 0.5em;
-		}
-		body > div > pre {
-			box-sizing: border-box;
-			box-shadow: 0 0 5px black;
-			border-radius: 0.5em;
-			padding: 0.75em 1em;
-			margin-top: 0;
-			margin-bottom: 0.5em;
-		}
-		body > div > span {
-			padding: 0.5rem;
-			font-size: 1.1em;
-			font-weight: bold;
-			text-align: center;
-			border-bottom: 1px solid;
-		}
-	</style>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 <?php

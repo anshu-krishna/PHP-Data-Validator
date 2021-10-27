@@ -5,5 +5,5 @@ abstract class AbstractRangerFormatter {
 	public function setup(string ...$args) : Returner {
 		return Returner::valid();
 	}
-	abstract public function exec(Returner $result) : Returner;
+	abstract public function exec($result) : Returner;
 }
