@@ -20,4 +20,7 @@ class ErrorReader {
 		$this->_errorstring ??= json_encode($this->errors, JSON_PRETTY_PRINT | JSON_INVALID_UTF8_SUBSTITUTE | JSON_PARTIAL_OUTPUT_ON_ERROR);
 		return $this->_errorstring;
 	}
+	public function __debugInfo() {
+		return $this->errors;
+	}
 }
