@@ -14,6 +14,7 @@ class StringType implements \Krishna\DataValidator\TypeInterface {
 		if(is_string($value)) {
 			return Returner::valid($value);
 		}
-		return Returner::invalid(static::Name);
+		// return Returner::invalid(static::Name);
+		return Returner::valid(strval($value));
 	}
 }

@@ -2,10 +2,16 @@
 namespace Krishna\DataValidator;
 
 final class Returner {
-	public $valid = false, $value = null;
-	private function __construct(bool $valid, $value) {
-		$this->valid = $valid;
-		$this->value = $value;
+	public readonly mixed $value;
+	public readonly mixed $error;
+	private function __construct(public readonly bool $valid, mixed $value) {
+		if($this->valid) {
+			$this->value = $value;
+			$this->error = null;
+		} else {
+			$this->value = null;
+			$this->error = $value;
+		}
 	}
 	public static function valid($value = true) : Returner {
 		return new self(true, $value);
@@ -14,6 +20,10 @@ final class Returner {
 		return new self(false, $reason);
 	}
 	public function get_as_array() : array {
-		return ["valid" => $this->valid, "value" => $this->value];
+		return [
+			"valid" => $this->valid,
+			"value" => $this->value,
+			"error" => $this->error
+		];
 	}
 }

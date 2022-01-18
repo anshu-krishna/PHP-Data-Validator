@@ -1,11 +1,9 @@
 <?php
-namespace Krishna\DataValidator\RngFmt;
+namespace Krishna\DataValidator\RngFmt\Str;
 
 use Krishna\DataValidator\Returner;
-use Krishna\DataValidator\Types\IntType;
 
-class StrUpper extends \Krishna\DataValidator\AbstractRangerFormatter {
-	private ?float $_min, $_max;
+class Upper extends \Krishna\DataValidator\AbstractRangerFormatter {
 	public function exec($value): Returner {
 		if(!is_string($value)) {
 			return Returner::invalid('StrUpper expects a string value');
