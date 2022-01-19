@@ -29,9 +29,9 @@ class ObjectHandler {
 					$error[] = "[{$key}]: {$m}";
 				}
 			}
-			if(count($error) > 0) {
-				throw new MultiLinedException($error);
-			}
+		}
+		if(count($error) > 0) {
+			throw new MultiLinedException($error);
 		}
 		$this->list = $ret_list;
 	}
