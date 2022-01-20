@@ -2,7 +2,7 @@
 namespace Krishna\DataValidator;
 
 class TypeHandler {
-	private const InterfaceClass = '\\' . __NAMESPACE__ . '\\TypeInterface';
+	private const InterfaceClass = '\\' . TypeInterface::class;
 	private const NSPathCache = '\\' . __NAMESPACE__ . '\\Types\\';
 	private static ?array $types_cache = null;
 
@@ -46,6 +46,33 @@ class TypeHandler {
 			return $longtype;
 		}
 		return null;
+	}
+	public static function set_multiple_custom_type_class(array $list, ?string $prefix_namespace = null, bool $sub_class_check = true) {
+		/*
+			Disabling sub_class_check is more efficient and also VERY DANGEROUS;
+			For best results:
+				During development -> $sub_class_check = true;
+				For deployment -> $sub_class_check = false;
+		*/
+		$prefix_namespace = ($prefix_namespace === null) ? '' : "{$prefix_namespace}\\";
+		if($sub_class_check) {
+			foreach($list as $type => $class) {
+				var_dump([$type => $prefix_namespace . $class]);
+				self::set_custom_type_class($type, $prefix_namespace . $class);
+			}
+		} else {
+			foreach($list as $type => $class) {
+				var_dump([$type => $prefix_namespace . $class]);
+				static::$types_cache[$type] = $prefix_namespace . $class;
+			}
+		}
+	}
+	public static function set_custom_type_class(string $type, string $class) {
+		if(is_subclass_of($class, static::InterfaceClass)) {
+			static::$types_cache[$type] = $class;
+		} else {
+			throw new MultiLinedException("'{$class}'; Custom type '{$type}' must be a sub-class of '" . static::InterfaceClass . "'");
+		}
 	}
 	public function __construct(string $info) {
 		if(static::$types_cache === null) {
