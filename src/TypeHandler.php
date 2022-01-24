@@ -57,12 +57,10 @@ class TypeHandler {
 		$prefix_namespace = ($prefix_namespace === null) ? '' : "{$prefix_namespace}\\";
 		if($sub_class_check) {
 			foreach($list as $type => $class) {
-				var_dump([$type => $prefix_namespace . $class]);
 				self::set_custom_type_class($type, $prefix_namespace . $class);
 			}
 		} else {
 			foreach($list as $type => $class) {
-				var_dump([$type => $prefix_namespace . $class]);
 				static::$types_cache[$type] = $prefix_namespace . $class;
 			}
 		}
