@@ -42,7 +42,7 @@ try {
 		'?d' => 'my_type1',
 		'?e' => 'my_type2',
 		'?f' => 'my_type3'
-	], true);
+	]);
 	['valid' => $valid, 'value' => $data, 'error' => $error] = $dv->validate([
 		'a' => '0',
 		'b' => [5, 16],

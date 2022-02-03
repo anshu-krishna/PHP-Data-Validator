@@ -10,7 +10,7 @@ class ObjectHandler {
 		}
 		return [$k, false];
 	}
-	public function __construct(object $list, public readonly bool $trimOutOfBound = false) {
+	public function __construct(object $list, public readonly OutOfBoundAction $on_out_of_bound = OutOfBoundAction::Error) {
 		$error = [];
 		$ret_list = [];
 		foreach($list as $key=>&$item) {
@@ -19,8 +19,8 @@ class ObjectHandler {
 			try {
 				$info['handler'] = match(true) {
 					is_string($item) => new TypeHandler($item),
-					is_array($item) => new ArrayHandler($item, $this->trimOutOfBound),
-					is_object($item) => new static($item, $this->trimOutOfBound),
+					is_array($item) => new ArrayHandler($item, $this->on_out_of_bound),
+					is_object($item) => new static($item, $this->on_out_of_bound),
 					default => throw new MultiLinedException('{' . strval($item) . '}; Invalid value', $key)
 				};
 				$ret_list[$key] = $info;
@@ -60,10 +60,18 @@ class ObjectHandler {
 				$error[$key] = "Missing";
 			}
 		}
-		if(!$this->trimOutOfBound) {
-			foreach(array_diff($all_keys, $found) as $k) {
-				$error[$k] = "Out of bound";
-			}
+		switch($this->on_out_of_bound) {
+			case OutOfBoundAction::Trim: break;
+			case OutOfBoundAction::Keep:
+				foreach(array_diff($all_keys, $found) as $k) {
+					$ret[$k] = $val->{$k};
+				}
+				break;
+			case OutOfBoundAction::Error:
+				foreach(array_diff($all_keys, $found) as $k) {
+					$error[$k] = "Out of bound";
+				}
+				break;
 		}
 		if(count($error) === 0) {
 			return Returner::valid($ret);

@@ -3,7 +3,7 @@ namespace Krishna\DataValidator;
 
 class Validator {
 	public readonly ArrayHandler|ObjectHandler $struct;
-	public function __construct(array|string $data_struct, public readonly bool $trimOutOfBound = false) {
+	public function __construct(array|string $data_struct, public readonly OutOfBoundAction $on_out_of_bound = OutOfBoundAction::Error) {
 		if(is_array($data_struct)) {
 			$data_struct = json_encode($data_struct, JSON_PARTIAL_OUTPUT_ON_ERROR | JSON_INVALID_UTF8_SUBSTITUTE);
 		}
@@ -12,8 +12,8 @@ class Validator {
 			throw new MultiLinedException('Invalid structure');
 		}
 		$this->struct = match(true) {
-			is_object($data_struct) => new ObjectHandler($data_struct, $this->trimOutOfBound),
-			is_array($data_struct) => new ArrayHandler($data_struct, $this->trimOutOfBound),
+			is_object($data_struct) => new ObjectHandler($data_struct, $this->on_out_of_bound),
+			is_array($data_struct) => new ArrayHandler($data_struct, $this->on_out_of_bound),
 			default => throw new MultiLinedException('Invalid structure')
 		};
 	}

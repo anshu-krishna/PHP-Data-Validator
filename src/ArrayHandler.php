@@ -4,15 +4,15 @@ namespace Krishna\DataValidator;
 class ArrayHandler {
 	public readonly array $list;
 	public readonly bool $single;
-	public function __construct(array $list, public readonly bool $trimOutOfBound = false) {
+	public function __construct(array $list, public readonly OutOfBoundAction $on_out_of_bound = OutOfBoundAction::Error) {
 		$error = [];
 		for ($i = 0, $j = count($list); $i < $j; $i++) {
 			$item = &$list[$i];
 			try {
 				$item = match(true) {
 					is_string($item) => new TypeHandler($item),
-					is_array($item) => new static($item, $this->trimOutOfBound),
-					is_object($item) => new ObjectHandler($item, $this->trimOutOfBound),
+					is_array($item) => new static($item, $this->on_out_of_bound),
+					is_object($item) => new ObjectHandler($item, $this->on_out_of_bound),
 					default => throw new MultiLinedException('{' . strval($item) . '}; Invalid value', $i)
 				};
 			} catch(MultiLinedException $th) {
@@ -38,8 +38,14 @@ class ArrayHandler {
 			$found[] = $key;
 			$handler = $this->list[$this->single ? 0 : $key] ?? false;
 			if($handler === false) {
-				if(!$this->trimOutOfBound) {
-					$error[$key] = 'Out of bounds';
+				switch($this->on_out_of_bound) {
+					case OutOfBoundAction::Trim: break;
+					case OutOfBoundAction::Keep:
+						$ret[$key] = $val;
+						break;
+					case OutOfBoundAction::Error:
+						$error[$key] = 'Out of bounds';
+						break;
 				}
 				continue;
 			}
