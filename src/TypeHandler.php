@@ -20,14 +20,18 @@ class TypeHandler {
 			'int'		=> 'IntType',
 			'ipv4'		=> 'IPv4Type',
 			'ipv6'		=> 'IPv6Type',
+			'json'		=> 'JsonType',
+			'json64'	=> 'Json64Type',
 			'mac'		=> 'MACType',
 			'mixed'		=> 'MixedType',
 			'null'		=> 'NullType',
 			'number'	=> 'NumberType',
 			'string'	=> 'StringType',
+			'string64'	=> 'String64Type',
 			'timestamp'	=> 'TimestampType',
 			'unsigned'	=> 'UnsignedType',
 			'url'		=> 'URLType',
+			'url64'		=> 'URL64Type',
 		] as $k => $v) {
 			static::$types_cache[$k] = static::NSPathCache . $v;
 		}

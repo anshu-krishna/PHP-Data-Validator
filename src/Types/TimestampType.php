@@ -4,7 +4,7 @@ namespace Krishna\DataValidator\Types;
 use Krishna\DataValidator\Returner;
 
 class TimestampType implements \Krishna\DataValidator\TypeInterface {
-	use \Krishna\DataValidator\StaticOnlyTrait;
+	use \Krishna\Utilities\StaticOnlyTrait;
 	const Name = 'timestamp';
 
 	public static function validate($value, bool $allow_null = false) : Returner {
