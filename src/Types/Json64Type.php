@@ -1,5 +1,5 @@
 <?php
-namespace Krishna\API\DataType;
+namespace Krishna\DataValidator\Types;
 use Krishna\DataValidator\Returner;
 use Krishna\DataValidator\Types\JsonType;
 use Krishna\DataValidator\Types\String64Type;
