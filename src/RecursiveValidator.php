@@ -15,7 +15,7 @@ class RecursiveValidator {
 		TypeHandler|string|array $struct,
 		OutOfBoundAction $on_out_of_bound = OutOfBoundAction::Keep,
 		?string $step_title = null
-	) {
+	) : static {
 		if(is_array($struct)) {
 			$this->steps[] = new Validator($struct, $on_out_of_bound);
 		} elseif(is_string($struct)) {
