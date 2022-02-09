@@ -1,7 +1,7 @@
 <?php
 namespace Krishna\DataValidator\RngFmt\Str;
 
-use Krishna\DataValidator\MultiLinedException;
+use Krishna\DataValidator\ComplexException;
 use Krishna\DataValidator\Returner;
 
 class Range extends \Krishna\DataValidator\AbstractRangerFormatter {
@@ -10,7 +10,7 @@ class Range extends \Krishna\DataValidator\AbstractRangerFormatter {
 			($this->min === null && $this->max === null) ||
 			($this->min !== null && $this->max !== null && $this->min > $this->max)
 		) {
-			throw new MultiLinedException('Invalid range values');
+			throw new ComplexException('Invalid range values');
 		}
 	}
 	public function exec($value): Returner {

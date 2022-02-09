@@ -13,25 +13,26 @@ class TypeHandler {
 	private static function init_cache() {
 		static::$types_cache = [];
 		foreach([
-			'bool'		=> 'BoolType',
-			'email'		=> 'EmailType',
-			'float'		=> 'FloatType',
-			'hex'		=> 'HexType',
-			'int'		=> 'IntType',
-			'ipv4'		=> 'IPv4Type',
-			'ipv6'		=> 'IPv6Type',
-			'json'		=> 'JsonType',
-			'json64'	=> 'Json64Type',
-			'mac'		=> 'MACType',
-			'mixed'		=> 'MixedType',
-			'null'		=> 'NullType',
-			'number'	=> 'NumberType',
-			'string'	=> 'StringType',
-			'string64'	=> 'String64Type',
-			'timestamp'	=> 'TimestampType',
-			'unsigned'	=> 'UnsignedType',
-			'url'		=> 'URLType',
-			'url64'		=> 'URL64Type',
+			'bool'			=> 'BoolType',
+			'email'			=> 'EmailType',
+			'float'			=> 'FloatType',
+			'hex'			=> 'HexType',
+			'int'			=> 'IntType',
+			'ipv4'			=> 'IPv4Type',
+			'ipv6'			=> 'IPv6Type',
+			'json'			=> 'JsonType',
+			'json64'		=> 'Json64Type',
+			'mac'			=> 'MACType',
+			'mixed'			=> 'MixedType',
+			'null'			=> 'NullType',
+			'number'		=> 'NumberType',
+			'string'		=> 'StringType',
+			'string64'		=> 'String64Type',
+			'string64bin'	=> 'String64BinType',
+			'timestamp'		=> 'TimestampType',
+			'unsigned'		=> 'UnsignedType',
+			'url'			=> 'URLType',
+			'url64'			=> 'URL64Type',
 		] as $k => $v) {
 			static::$types_cache[$k] = static::NSPathCache . $v;
 		}
@@ -73,7 +74,7 @@ class TypeHandler {
 		if(is_subclass_of($class, static::InterfaceClass)) {
 			static::$types_cache[$type] = $class;
 		} else {
-			throw new MultiLinedException("'{$class}'; Custom type '{$type}' must be a sub-class of '" . static::InterfaceClass . "'");
+			throw new ComplexException("'{$class}'; Custom type '{$type}' must be a sub-class of '" . static::InterfaceClass . "'");
 		}
 	}
 	public function __construct(string $info) {
@@ -86,12 +87,12 @@ class TypeHandler {
 		$types = array_diff($types, ['null', '']);
 		$rng_fmt = array_diff($rng_fmt, ['']);
 		if(count($types) === 0) {
-			throw new MultiLinedException('Data-type missing');
+			throw new ComplexException('Data-type missing');
 		}
 
 		foreach($types as &$t) {
 			if(($longt = static::get_type_class($t)) === null) {
-				throw new MultiLinedException("'{$t}'; Unknown data-type");
+				throw new ComplexException("'{$t}'; Unknown data-type");
 			} else {
 				$t = $longt;
 			}
@@ -100,12 +101,12 @@ class TypeHandler {
 			$rf_detail = explode(';', $rf);
 			$rf_class = $rf_detail[0] ?? null;
 			if(!is_subclass_of($rf_class, \Krishna\DataValidator\AbstractRangerFormatter::class)) {
-				throw new MultiLinedException("'{$rf}'; Invalid ranger-formatter used; Class unknown");
+				throw new ComplexException("'{$rf}'; Invalid ranger-formatter used; Class unknown");
 			}
 			$rf_id = $rf_detail[1] ?? 'undefined';
 			$rf_obj = $rf_class::get($rf_id);
 			if($rf_obj === null) {
-				throw new MultiLinedException("'{$rf}'; Invalid ranger-formatter used; Invalid object id");
+				throw new ComplexException("'{$rf}'; Invalid ranger-formatter used; Invalid object id");
 			}
 			$rf = $rf_obj;
 		}

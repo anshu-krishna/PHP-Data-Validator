@@ -1,7 +1,7 @@
 <?php
 namespace Krishna\DataValidator;
 
-class MultiLinedException extends \Exception {
+class ComplexException extends \Exception {
 	private array $info = [];
 	public function __construct(array|string $message, ?string $prefix = null, int $code = 0, ?\Throwable $previous = null) {
 		parent::__construct('Use getInfo() for messages', $code, $previous);
@@ -19,5 +19,8 @@ class MultiLinedException extends \Exception {
 	}
 	public function __toString(): string {
 		return $this->message;
+	}
+	public function getFormattedErrors(string $seperator = ', ') : string {
+		return implode($seperator, $this->info);
 	}
 }

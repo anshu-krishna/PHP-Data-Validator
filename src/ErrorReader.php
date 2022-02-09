@@ -23,4 +23,7 @@ class ErrorReader {
 	public function __debugInfo() {
 		return $this->errors;
 	}
+	public function getFormattedErrors(string $seperator = ', ') : string {
+		return implode($seperator, $this->errors);
+	}
 }

@@ -9,12 +9,12 @@ class Validator {
 		}
 		$data_struct = json_decode($data_struct, flags: JSON_INVALID_UTF8_SUBSTITUTE);
 		if($data_struct === null) {
-			throw new MultiLinedException('Invalid structure');
+			throw new ComplexException('Invalid structure');
 		}
 		$this->struct = match(true) {
 			is_object($data_struct) => new ObjectHandler($data_struct, $this->on_out_of_bound),
 			is_array($data_struct) => new ArrayHandler($data_struct, $this->on_out_of_bound),
-			default => throw new MultiLinedException('Invalid structure')
+			default => throw new ComplexException('Invalid structure')
 		};
 	}
 	public function validate(array|object $val) : Returner {

@@ -21,17 +21,17 @@ class ObjectHandler {
 					is_string($item) => new TypeHandler($item),
 					is_array($item) => new ArrayHandler($item, $this->on_out_of_bound),
 					is_object($item) => new static($item, $this->on_out_of_bound),
-					default => throw new MultiLinedException('{' . strval($item) . '}; Invalid value', $key)
+					default => throw new ComplexException('{' . strval($item) . '}; Invalid value', $key)
 				};
 				$ret_list[$key] = $info;
-			} catch (MultiLinedException $th) {
+			} catch (ComplexException $th) {
 				foreach($th->getInfo() as $m) {
 					$error[] = "[{$key}]: {$m}";
 				}
 			}
 		}
 		if(count($error) > 0) {
-			throw new MultiLinedException($error);
+			throw new ComplexException($error);
 		}
 		$this->list = $ret_list;
 	}
