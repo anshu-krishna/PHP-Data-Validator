@@ -10,7 +10,7 @@ class ErrorReader {
 	private function _traverse(array $a, string $pre = '') {
 		foreach($a as $k=>$v) {
 			if(is_array($v)) {
-				$this->_traverse($v, "{$pre}[${k}]");
+				$this->_traverse($v, "{$pre}[{$k}]");
 			} else {
 				$this->errors[] = "{$pre}[{$k}]: {$v}";
 			}
