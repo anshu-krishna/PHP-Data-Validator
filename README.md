@@ -45,10 +45,18 @@ use Krishna\DataValidator\OutOfBoundAction;
 use Krishna\DataValidator\Validator;
 try {
    $dv = new Validator([
-      'a' => 'int', // a is required and must be an integer
-      '?b' => 'float', // b is optional and must be a float
-      '??c' => 'unsigned', // c is optional and must be an unsigned integer; if not provided, it will be set to null
-      'd' => 'null|int|uuid', // d is required and must be an integer or a UUIDv4 or null
+      'a' => 'int',
+      // a is required and must be an integer
+      
+      '?b' => 'float',
+      // b is optional and must be a float
+      
+      '??c' => 'unsigned',
+      // c is optional and must be an unsigned integer;
+      // if not provided, it will be set to null
+      
+      'd' => 'null|int|uuid',
+      // d is required and must be an integer or a UUIDv4 or null
    ], OutOfBoundAction::Trim);
 }
 catch (ComplexException $e) {
