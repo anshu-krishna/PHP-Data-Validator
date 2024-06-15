@@ -23,8 +23,11 @@ composer require anshu-krishna/data-validator
 	* `string` : String value
 	* `timestamp` : String containing a timestamp.\
 					eg: '2021-01-31', 'today', 'yesterday', '01-Jan-2021', 'January 1, 2021 05:00:10 AM GMT+05:30', etc.
+	* `timestamp_utc` : String containing a timestamp (it will be converted to UTC timezone).\
+					eg: '2021-01-31', 'today', 'yesterday', '01-Jan-2021', 'January 1, 2021 05:00:10 AM GMT+05:30', '2024-06-15T20:12:52+05:30:10', etc.
 	* `unsigned` : Int >= 0
 	* `url` : String containing a URL
+	* `uuid` : String containing a UUIDv4
 
 * Custom data types can also be added. For example see `./examples`
 

@@ -30,9 +30,11 @@ class TypeHandler {
 			'string64'		=> 'String64Type',
 			'string64bin'	=> 'String64BinType',
 			'timestamp'		=> 'TimestampType',
+			'timestamp_utc'	=> 'TimestampUTCType',
 			'unsigned'		=> 'UnsignedType',
 			'url'			=> 'URLType',
 			'url64'			=> 'URL64Type',
+			'uuid'			=> 'UUIDType',
 		] as $k => $v) {
 			static::$types_cache[$k] = static::NSPathCache . $v;
 		}
@@ -87,7 +89,11 @@ class TypeHandler {
 		$types = array_diff($types, ['null', '']);
 		$rng_fmt = array_diff($rng_fmt, ['']);
 		if(count($types) === 0) {
-			throw new ComplexException('Data-type missing');
+			if($nullable) {
+				throw new ComplexException('Data-type missing (data-type cannot be null only, use null with other data-types (e.g. "null|string")');
+			} else {
+				throw new ComplexException('Data-type missing');
+			}
 		}
 
 		foreach($types as &$t) {
