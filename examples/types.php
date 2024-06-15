@@ -1,4 +1,10 @@
 <?php namespace ExampleApp; ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Types Examples</title>
 <style>
 body {
 	padding: 0.5rem;
@@ -6,43 +12,109 @@ body {
 	display: grid;
 	gap: 1rem;
 }
-.full-width {
-	grid-column:1 / -1;
-}
-h3 {
-	margin: 0;
-	margin-bottom: 0.5rem;
+header {
+	font-weight: bold;
 }
 pre {
 	margin:0;
-	background-color: #f9f9f9;
-	padding:0.5rem 0.8rem;
-	border:1px solid #ccc;
-	border-radius: 0.3rem;
 	white-space:pre-wrap;
 	word-wrap:break-word;
 }
 details {
 	border:1px solid #ccc;
 	border-radius: 0.3rem;
+	
+	& > summary {
+		padding:0.5rem 0.8rem;
+		cursor:pointer;
+		background: #f9f9f9;
+		font-weight: bold;
+		font-size: 1.2rem;
+		border-radius: 0.3rem;
+	}
+
 	&[open] > summary {
 		border-bottom:1px solid #ccc;
+		border-bottom-left-radius: 0;
+		border-bottom-right-radius: 0;
 	}
 	& > div {
 		padding: 0.5rem;
-		display: grid;
-		gap: 0.5rem;
-		grid-template-columns: 1fr 1fr;
 	}
 }
-summary {
-	padding:0.5rem 0.8rem;
-	cursor:pointer;
-	background: #f9f9f9;
-	font-weight: bold;
-	font-size: 1.2rem;
+
+table {
+	margin: 0 auto;
+	border-collapse: separate;
+	border-spacing: 0.2rem;
 }
-</style><?php
+
+thead {
+	position: sticky;
+	top: 0;
+	z-index: 1;
+
+	& th, & td {
+		border-radius: 0.3rem 0.3rem 0 0;
+		padding:0.5rem 0.8rem;
+		background-color: #212121;
+		color: #fff;
+	}
+}
+
+tbody {
+	& tr:nth-child(odd) {
+		background-color: #f9f9f9;
+	}
+	& tr:nth-child(even) {
+		background-color: #f3f3f3;
+	}
+
+	& th, & td {
+		border:1px solid #ccc;
+		border-radius: 0.3rem;
+		padding:0.5rem 0.8rem;
+	}
+}
+
+button {
+	padding: 0.5rem 1rem;
+	font: inherit;
+	border-radius: 0.3rem;
+	border: 1px solid #ccc;
+	cursor: pointer;
+}
+
+#btns {
+	display: grid;
+	gap: 1rem;
+	grid-template-columns: max-content max-content;
+	justify-content: center;
+}
+
+</style><script type="module">
+	for(const node of document.querySelectorAll('pre.xdebug-var-dump > small:first-of-type')) {
+		const next = node.nextSibling;
+		node.remove();
+		if(next.nodeType === Node.TEXT_NODE) {
+			next.remove();
+		}
+	}
+	document.querySelector('button:nth-of-type(1)').addEventListener('click', () => {
+		for(const details of document.querySelectorAll('details')) {
+			details.open = true;
+		}
+	});
+	document.querySelector('button:nth-of-type(2)').addEventListener('click', () => {
+		for(const details of document.querySelectorAll('details')) {
+			details.open = false;
+		}
+	});
+</script></head>
+<body><div id="btns">
+	<button>Open All Examples</button>
+	<button>Close All Examples</button>
+</div><?php
 
 require_once '../vendor/autoload.php';
 
@@ -51,38 +123,42 @@ use Krishna\DataValidator\Validator;
 
 function example(string $title, string $type, mixed ...$values) {
 	echo '<details><summary class="full-width">Example: ', htmlentities($title), '</summary><div>';
-	$structure = [
-		'value' => $type
-	];
-	echo '<div class="full-width"><h3>Structure:</h3>';
+	$structure = $type;
+	echo '<table><tr><th>Structure:</th><td>';
 	var_dump($structure);
-	echo "</div>";
+	echo '</td></tr></table>';
 	try {
 		$dv = new Validator($structure);
+		echo '<table><thead><tr><th>Value</th><th>Result</th></tr></thead><tbody>';
 		foreach($values as $value) {
-			$test = [
-				'value' => $value
-			];
-			echo '<div><h3>Value:</h3>';
-			var_dump($test);
-			echo "</div>";
-
-			echo '<div><h3>Result:</h3>';
-			var_dump($dv->validate($test));
-			echo "</div>";
+			$result = $dv->validate($value);
+			echo '<tr><td>';
+			var_dump($value);
+			echo '</td><td>';
+			var_dump($result);
+			echo '</td></tr>';
 		}
 	} catch (ComplexException $th) {
-		echo '<div class="full-width"><h3>Error:</h3>';
+		echo '<tr><td colspan="2"><header>Error:</header>';
 		var_dump($th->getInfo());
 		// var_dump($th->getMessage());
-		echo "</div>";
+		echo "</td></tr>";
 	} catch (\Throwable $th) {
-		echo '<div class="full-width"><h3>Error:</h3>';
+		echo '<tr><td colspan="2"><header>Error:</header>';
 		var_dump($th->getMessage());
-		echo "</div>";
+		echo "</td></tr>";
 	}
-	echo '</div></details>';
+	echo '</tbody></table></div></details>';
 }
+
+example(
+	'Multiple alternative types', 'null|int|string',
+	'Hello, World!',
+	null,
+	'null',
+	'',
+	123
+);
 
 example(
 	'bool type', 'bool',
@@ -129,7 +205,6 @@ example(
 	123.45,
 	''
 );
-
 
 example(
 	'ipv4 type', 'ipv4',
@@ -320,11 +395,5 @@ example(
 	'xyz'
 );
 
-example(
-	'Multiple alternative types', 'null|int|string',
-	'Hello, World!',
-	null,
-	'null',
-	'',
-	123
-);
+?></body>
+</html>

@@ -4,18 +4,29 @@ namespace Krishna\DataValidator;
 class ObjectHandler {
 	public readonly array $list;
 	private static function parse_key_string(string $k) {
-		$op = ($k[0] ?? '') === '?';
-		if($op) {
-			return [substr($k, 1), true];
+		$op = $k[0] ?? '';		
+		/* Return structure [key, action_when_missing]
+		action_when_missing:
+			0: Error
+			1: Optional
+			2: Set default value to null
+		*/
+		if($op === '?') {
+			$def = $k[1] ?? '';
+			if($def === '?') {
+				return [substr($k, 2), 2];
+			} else {
+				return [substr($k, 1), 1];
+			}
 		}
-		return [$k, false];
+		return [$k, 0];
 	}
 	public function __construct(object $list, public readonly OutOfBoundAction $on_out_of_bound = OutOfBoundAction::Error) {
 		$error = [];
 		$ret_list = [];
 		foreach($list as $key=>&$item) {
 			$info = [];
-			list($key, $info['op']) = self::parse_key_string($key);
+			list($key, $info['act']) = self::parse_key_string($key);
 			try {
 				$info['handler'] = match(true) {
 					is_string($item) => new TypeHandler($item),
@@ -54,10 +65,17 @@ class ObjectHandler {
 				} else {
 					$error[$key] = $res->error;
 				}
-			} elseif($info['op']) {
-				continue;
 			} else {
-				$error[$key] = "Missing";
+				switch($info['act']) {
+					case 0:
+						$error[$key] = "Missing";
+						break;
+					case 1:
+						continue 2;
+					case 2:
+						$ret[$key] = null;
+						break;
+				}
 			}
 		}
 		switch($this->on_out_of_bound) {
