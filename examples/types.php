@@ -11,6 +11,8 @@ body {
 	font-family: Arial, sans-serif;
 	display: grid;
 	gap: 1rem;
+	grid-template-columns: repeat(auto-fill, minmax(80ch, 1fr));
+	align-items: start;
 }
 header {
 	font-weight: bold;
@@ -90,6 +92,7 @@ button {
 	gap: 1rem;
 	grid-template-columns: max-content max-content;
 	justify-content: center;
+	grid-column: 1 / -1;
 }
 
 </style><script type="module">
@@ -122,7 +125,7 @@ use Krishna\DataValidator\ComplexException;
 use Krishna\DataValidator\Validator;
 
 function example(string $title, string $type, mixed ...$values) {
-	echo '<details><summary class="full-width">Example: ', htmlentities($title), '</summary><div>';
+	echo '<details><summary class="full-width">', htmlentities($title), '</summary><div>';
 	$structure = $type;
 	echo '<table><tr><th>Structure:</th><td>';
 	var_dump($structure);
