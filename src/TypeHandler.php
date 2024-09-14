@@ -4,41 +4,35 @@ namespace Krishna\DataValidator;
 class TypeHandler {
 	private const InterfaceClass = '\\' . TypeInterface::class;
 	private const NSPathCache = '\\' . __NAMESPACE__ . '\\Types\\';
-	private static ?array $types_cache = null;
+	private static array $types_cache = [
+		'bool'			=> self::NSPathCache . 'BoolType',
+		'email'			=> self::NSPathCache . 'EmailType',
+		'float'			=> self::NSPathCache . 'FloatType',
+		'hex'			=> self::NSPathCache . 'HexType',
+		'int'			=> self::NSPathCache . 'IntType',
+		'ipv4'			=> self::NSPathCache . 'IPv4Type',
+		'ipv6'			=> self::NSPathCache . 'IPv6Type',
+		'json'			=> self::NSPathCache . 'JsonType',
+		'json64'		=> self::NSPathCache . 'Json64Type',
+		'mac'			=> self::NSPathCache . 'MACType',
+		'mixed'			=> self::NSPathCache . 'MixedType',
+		'null'			=> self::NSPathCache . 'NullType',
+		'number'		=> self::NSPathCache . 'NumberType',
+		'string'		=> self::NSPathCache . 'StringType',
+		'string64'		=> self::NSPathCache . 'String64Type',
+		'string64bin'	=> self::NSPathCache . 'String64BinType',
+		'timestamp'		=> self::NSPathCache . 'TimestampType',
+		'timestamp_utc'	=> self::NSPathCache . 'TimestampUTCType',
+		'unsigned'		=> self::NSPathCache . 'UnsignedType',
+		'url'			=> self::NSPathCache . 'URLType',
+		'url64'			=> self::NSPathCache . 'URL64Type',
+		'uuid'			=> self::NSPathCache . 'UUIDType',
+	];
 
 	public readonly array $types;
 	public readonly array $rng_fmt;
 	public readonly bool $nullable;
 
-	private static function init_cache() {
-		static::$types_cache = [];
-		foreach([
-			'bool'			=> 'BoolType',
-			'email'			=> 'EmailType',
-			'float'			=> 'FloatType',
-			'hex'			=> 'HexType',
-			'int'			=> 'IntType',
-			'ipv4'			=> 'IPv4Type',
-			'ipv6'			=> 'IPv6Type',
-			'json'			=> 'JsonType',
-			'json64'		=> 'Json64Type',
-			'mac'			=> 'MACType',
-			'mixed'			=> 'MixedType',
-			'null'			=> 'NullType',
-			'number'		=> 'NumberType',
-			'string'		=> 'StringType',
-			'string64'		=> 'String64Type',
-			'string64bin'	=> 'String64BinType',
-			'timestamp'		=> 'TimestampType',
-			'timestamp_utc'	=> 'TimestampUTCType',
-			'unsigned'		=> 'UnsignedType',
-			'url'			=> 'URLType',
-			'url64'			=> 'URL64Type',
-			'uuid'			=> 'UUIDType',
-		] as $k => $v) {
-			static::$types_cache[$k] = static::NSPathCache . $v;
-		}
-	}
 	private static function get_type_class(string $type) :?string {
 		if(array_key_exists($type, static::$types_cache)) {
 			return static::$types_cache[$type];
@@ -80,9 +74,6 @@ class TypeHandler {
 		}
 	}
 	public function __construct(string $info) {
-		if(static::$types_cache === null) {
-			static::init_cache();
-		}
 		$rng_fmt = preg_split('/\s*@/', $info);
 		$types = array_unique(preg_split('/\s*\|\s*/', array_shift($rng_fmt)));
 		$nullable = in_array('null', $types);
