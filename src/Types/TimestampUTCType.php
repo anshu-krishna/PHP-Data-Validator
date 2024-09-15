@@ -8,14 +8,12 @@ class TimestampUTCType implements \Krishna\DataValidator\TypeInterface {
 	const Name = 'timestamp_utc';
 
 	public static function validate($value, bool $allow_null = false) : Returner {
-		if(is_string($value) && ($f = strtotime($value)) !== false) {
-			// unix epic to ISO UTC format
-			$f = gmdate('Y-m-d\TH:i:s.u\Z', $f);
-			return Returner::valid($f);
+		$value = TimestampType::validate($value, $allow_null);
+		if(!$value->valid) {
+			return Returner::invalid(static::Name);
 		}
-		if($allow_null && ($f = NullType::validate($value))->valid) {
-			return $f;
-		}
-		return Returner::invalid(static::Name);
+		// unix epic to ISO UTC format
+		$f = gmdate('Y-m-d\TH:i:s.u\Z', $value->value);
+		return Returner::valid($f);
 	}
 }

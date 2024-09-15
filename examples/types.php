@@ -7,11 +7,16 @@
 	<title>Types Examples</title>
 <style>
 body {
+	width: 100vw;
+	max-width: 100vw;
+	margin: 0;
 	padding: 0.5rem;
 	font-family: Arial, sans-serif;
 	display: grid;
 	gap: 1rem;
-	grid-template-columns: repeat(auto-fill, minmax(80ch, 1fr));
+	grid-template-columns: repeat(auto-fill, minmax(80ch, auto));
+	/* grid-template-columns: repeat(2, 50ch); */
+	justify-content: center;
 	align-items: start;
 }
 header {
@@ -23,6 +28,7 @@ pre {
 	word-wrap:break-word;
 }
 details {
+	display: grid;
 	border:1px solid #ccc;
 	border-radius: 0.3rem;
 	
@@ -46,6 +52,7 @@ details {
 }
 
 table {
+	max-width: 100%;
 	margin: 0 auto;
 	border-collapse: separate;
 	border-spacing: 0.2rem;
@@ -113,6 +120,12 @@ button {
 			details.open = false;
 		}
 	});
+
+	for(const i of document.querySelectorAll('i')) {
+		if(i.textContent.startsWith('(length=') && i.textContent.endsWith(')')) {
+			i.remove();
+		}
+	}
 </script></head>
 <body><div id="btns">
 	<button>Open All Examples</button>
@@ -284,6 +297,8 @@ example(
 	'timestamp type', 'timestamp',
 	
 	// Formats
+	'1718460431', // Unix Epoch
+	1718460431, // Unix Epoch
 	'2024-06-15T14:07:11Z', // UTC
 	'2024-06-15T14:07:11+0000', // ISO-8601
 	'2024-06-15T14:07:11+00:00', // ISO-8601
@@ -297,14 +312,12 @@ example(
 	'Saturday, 15-Jun-2024 14:07:11 UTC', // COOKIE
 	'Sat, 15 Jun 2024 14:07:11 +0000', // RSS
 	'2024-06-15T14:07:11+00:00', // W3C
+	'15-06-2024 14:07:11', // DD-MM-YYYY HH:MM:SS
 	
 	// Failed formats
-	// '1718460431', // Unix Epoch
-	// 1718460431, // Unix Epoch
 	// '2024-15-06 14:07:11', // YYYY-DD-MM HH:MM:SS
 	// '2024-15-06 02:07:11 PM', // YYYY-DD-MM HH:MM:SS am/pm
-	// '15-06-2024 14:07:11', // DD-MM-YYYY HH:MM:SS
-	// '06-15-2024 14:07:11' // MM-DD-YYYY HH:MM:SS
+	// '06-15-2024 14:07:11', // MM-DD-YYYY HH:MM:SS
 
 
 	// PHP values
@@ -318,6 +331,8 @@ example(
 	'timestamp_utc type', 'timestamp_utc',
 	
 	// Formats
+	'1718460431', // Unix Epoch
+	1718460431, // Unix Epoch
 	'2024-06-15T14:07:11Z', // UTC
 	'2024-06-15T14:07:11+0000', // ISO-8601
 	'2024-06-15T14:07:11+00:00', // ISO-8601
@@ -331,13 +346,11 @@ example(
 	'Saturday, 15-Jun-2024 14:07:11 UTC', // COOKIE
 	'Sat, 15 Jun 2024 14:07:11 +0000', // RSS
 	'2024-06-15T14:07:11+00:00', // W3C
+	'15-06-2024 14:07:11', // DD-MM-YYYY HH:MM:SS
 	
 	// Failed formats
-	// '1718460431', // Unix Epoch
-	// 1718460431, // Unix Epoch
 	// '2024-15-06 14:07:11', // YYYY-DD-MM HH:MM:SS
 	// '2024-15-06 02:07:11 PM', // YYYY-DD-MM HH:MM:SS am/pm
-	// '15-06-2024 14:07:11', // DD-MM-YYYY HH:MM:SS
 	// '06-15-2024 14:07:11' // MM-DD-YYYY HH:MM:SS
 
 
